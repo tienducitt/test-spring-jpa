@@ -138,4 +138,6 @@ I tested with some custom functions belove, the result is the same with `findAll
 - With complex model with hundred of entities, Spring JPA may be load many entities with just a simple function like `findById()`
 
 ### Question:
-- What can be the solutions for this problems? Should we fetch all the relationship LAZYly (which can causes N+1 problem)? or manually defind the query only load the information that we need?
+What is the best practice here? For small application, this is not a big deal, but for medium or big application, this will increase the database load a lot.
+
+Should we defind all fetch type is LAZY? and manually defind the query only load the information that we need?
