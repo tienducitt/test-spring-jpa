@@ -132,9 +132,9 @@ I tested with some custom functions belove, the result is the same with `findAll
 ```
 
 ## So:
-- Default fetch mode of `@ManyToOne` and `@OneToOne` relationships is EAGERly, while default of `@OneToMany` and `@ManyToMany` is LAZYly.
+- Spring JPA does not work as my assumtion, I thought default fetch type is always LAZY. But Default fetch type of `@ManyToOne` and `@OneToOne` relationships is EAGERly, while default of `@OneToMany` and `@ManyToMany` is LAZYly.
 - findById() will load all the EAGER relationship by using join, some extra queries can be executed for complex relationships.
-- findAll() will load all the EAGER relationship by using a separate query, no matter the fetch mode is defined or not. This is a kind of N+1 problem I think.
+- findAll() will load all the EAGER relationship by using a separate query,no matter the fetch mode is defined or not (which is not good). This is a kind of N+1 problem I think.
 - With complex model with hundred of entities, Spring JPA may be load many entities with just a simple function like `findById()`
 
 ### Question:
