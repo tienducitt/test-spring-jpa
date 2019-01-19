@@ -32,8 +32,10 @@ public class TestJpaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
         Order order = newOrder();
 
-//        Optional<Order> byId = orderRepository.findById(order.getId());
-        userRepository.findAll();
+        orderRepository.findById(order.getId());
+        orderRepository.findAll();
+        orderRepository.findByName(order.getName());
+        orderRepository.findByIds(Collections.singletonList(order.getId()));
         System.out.println();
     }
 

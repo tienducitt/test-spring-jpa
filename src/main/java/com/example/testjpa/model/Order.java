@@ -1,5 +1,8 @@
 package com.example.testjpa.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 
 @Entity(name = "orders")
@@ -10,8 +13,13 @@ public class Order {
     private Integer id;
     private String name;
 
+    @Fetch(FetchMode.JOIN)
     @ManyToOne(cascade = CascadeType.ALL)
     private User customer;
+
+    public Order() {
+
+    }
 
     public Integer getId() {
         return id;
