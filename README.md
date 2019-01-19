@@ -1,5 +1,5 @@
 # Spring JPA fetch test
-I used Spring, Hibernate & Spring boot few times back then at University, I start using it now when I join a new company.
+I used Spring, Hibernate & Spring boot few times back then at University, I'v started using it again recently.
 
 In this project, I want to check how Spring JPA load an entity and its relationships. How it deals with `@xToOne` and `xToMany` relationships.
 
@@ -7,7 +7,6 @@ In this project, I want to check how Spring JPA load an entity and its relations
 ![](schema.png)
 
 `Order` have many relationships, some is `@ManyToOne`, 1 is `@OneToMany`.
-
 
 ## Test with findById()
 Here is the query when we execute findById(orderId)
@@ -64,8 +63,8 @@ Hibernate:
         country0_.id=?
 ```
 
-So, Spring boot load all the `@ManyToOne` relationships using 1 join query.
-But it can not load all the thing at 1 query, the relationship `order.customer.city` have it owns relationship is `Country`, this entity need another query to load. The same with IDCardType.
+Spring boot load all the `@ManyToOne` relationships using 1 join query.
+But it can not load all the thing at 1 query, the relationship `order.customer.city` have it owns relationship is `Country`, 1 extra query is executed for `Country`, and another one for `IDCardType`.
 
 ## Test with findAll()
 Here is the query when we execute findAll():
@@ -119,8 +118,8 @@ Hibernate:
     where
         union0_.id=?
 ```
-So, we have 1 query for all orders, and 1 query for each relationship of order.
-Even if we change the fetch mode to JOIN `@Fetch(FetchMode.JOIN)`, Spring JPA behave the same way.
+We have 1 query for all orders, and 1 extra query for each relationship of order.
+Even if we change the fetch mode to JOIN `@Fetch(FetchMode.JOIN)`, Spring JPA still behaves the same way.
 
 ## Test with custom functions:
 I tested with some custom functions belove, the result is the same with `findAll` and `findById`.
@@ -132,7 +131,7 @@ I tested with some custom functions belove, the result is the same with `findAll
     Order findByName(String name);
 ```
 
-# My conclusion:
+## So:
 - Default fetch mode of `@ManyToOne` and `@OneToOne` relationships is EAGERly, while default of `@OneToMany` and `@ManyToMany` is LAZYly.
 - findById() will load all the EAGER relationship by using join, some extra queries can be executed for complex relationships.
 - findAll() will load all the EAGER relationship by using a separate query, no matter the fetch mode is defined or not. This is a kind of N+1 problem I think.
